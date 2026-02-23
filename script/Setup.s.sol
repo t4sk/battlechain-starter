@@ -9,10 +9,10 @@ import {IBattleChainDeployer} from "../src/interfaces/IBattleChain.sol";
 /// @notice Step 1 (Protocol): Deploy MockToken + VulnerableVault, seed the vault.
 ///
 /// Prerequisites — set in .env:
-///   PRIVATE_KEY
+///   SENDER_ADDRESS
 ///
 /// Usage:
-///   forge script script/Setup.s.sol --rpc-url battlechain --broadcast
+///   just setup
 ///
 /// After running, copy the logged addresses into your .env file.
 contract Setup is Script {
@@ -22,10 +22,9 @@ contract Setup is Script {
     uint256 constant SEED_AMOUNT = 1_000e18; // tokens seeded into vault as "protocol liquidity"
 
     function run() external {
-        uint256 deployerKey = vm.envUint("PRIVATE_KEY");
-        address deployer = vm.addr(deployerKey);
+        address deployer = vm.envAddress("SENDER_ADDRESS");
 
-        vm.startBroadcast(deployerKey);
+        vm.startBroadcast();
 
         // 1. Deploy MockToken
         MockToken token = new MockToken();

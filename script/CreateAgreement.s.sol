@@ -33,11 +33,10 @@ contract CreateAgreement is Script {
     uint256 constant COMMITMENT_WINDOW = 30 days;
 
     function run() external {
-        uint256 deployerKey = vm.envUint("PRIVATE_KEY");
-        address deployer    = vm.addr(deployerKey);
-        address vault       = vm.envAddress("VAULT_ADDRESS");
+        address deployer = vm.envAddress("SENDER_ADDRESS");
+        address vault    = vm.envAddress("VAULT_ADDRESS");
 
-        vm.startBroadcast(deployerKey);
+        vm.startBroadcast();
 
         // ── Contact details ────────────────────────────────────────────────
         Contact[] memory contacts = new Contact[](1);

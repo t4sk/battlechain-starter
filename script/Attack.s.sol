@@ -24,9 +24,8 @@ contract Attack is Script {
     uint256 constant BOUNTY_BPS = 1_000; // 10% — as agreed in the Safe Harbor terms
 
     function run() external {
-        uint256 attackerKey = vm.envUint("PRIVATE_KEY");
-        address attackerAddr = vm.addr(attackerKey);
-        address token = vm.envAddress("TOKEN_ADDRESS");
+        address attackerAddr = vm.envAddress("SENDER_ADDRESS");
+        address token        = vm.envAddress("TOKEN_ADDRESS");
         address vault = vm.envAddress("VAULT_ADDRESS");
         address recoveryAddress = vm.envAddress("RECOVERY_ADDRESS");
 
@@ -34,7 +33,7 @@ contract Attack is Script {
         console.log("Vault balance before:", vaultBefore / 1e18, "tokens");
         console.log("Deploying attacker...");
 
-        vm.startBroadcast(attackerKey);
+        vm.startBroadcast();
 
         // Deploy the attacker — pointed at the vault, armed with bounty terms
         Attacker attacker = new Attacker(vault, token, recoveryAddress, BOUNTY_BPS);

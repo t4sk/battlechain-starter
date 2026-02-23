@@ -14,16 +14,15 @@ import {IAttackRegistry} from "../src/interfaces/IBattleChain.sol";
 ///
 /// After running, wait for DAO approval. Check status with:
 ///   cast call $ATTACK_REGISTRY "getAgreementState(address)(uint8)" $AGREEMENT_ADDRESS \
-///     --rpc-url http://testnet.battlechain.com:3051
+///     --rpc-url https://testnet.battlechain.com:3051
 ///   # 2 = ATTACK_REQUESTED, 3 = UNDER_ATTACK (approved)
 contract RequestAttackMode is Script {
     address constant ATTACK_REGISTRY = 0x9E62988ccA776ff6613Fa68D34c9AB5431Ce57e1;
 
     function run() external {
-        uint256 deployerKey  = vm.envUint("PRIVATE_KEY");
-        address agreement    = vm.envAddress("AGREEMENT_ADDRESS");
+        address agreement = vm.envAddress("AGREEMENT_ADDRESS");
 
-        vm.startBroadcast(deployerKey);
+        vm.startBroadcast();
 
         IAttackRegistry(ATTACK_REGISTRY).requestUnderAttack(agreement);
 
